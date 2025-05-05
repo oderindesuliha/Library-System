@@ -3,6 +3,7 @@ import random
 from Library.author import Author
 
 
+
 def generate_isbn() -> str:
     prefix = "ISBN-"
     check_digit = str(random.randint(1000, 9999))
@@ -10,22 +11,27 @@ def generate_isbn() -> str:
 
 class Book:
     def __init__(self, title: str, author: "Author"):
-        self.title = title
-        self.author = author
-        self.is_available = True
+        self._title = title
+        self._author = author
+        self.is_available = False
         self.isbn = generate_isbn()
 
     @property
     def title(self) -> str:
-        return self.title
+        return f'Title: {self._title}'
+
+    @title.setter
+    def title(self, value):
+        self.title = value
 
     @property
-    def author(self) -> str:
-        return self.author
+    def author(self):
+        return f'Author: {self._author}'
 
+    @author.setter
+    def author(self, value):
+        self.author = value
 
-    def __repr__(self):
-        return f"Book(title='{self.title}', author='{self.author}', ISBN='{self.isbn}', available={self.available})"
 
     def __str__(self):
-        return f"{self.title} by {self.author} (ISBN: {self.isbn}) {'Available' if self.available else 'Not Available'}"
+        return f"{self.title} by {self.author} (ISBN: {self.isbn}) {'Available' if self.is_available else 'Not Available'}"

@@ -6,7 +6,7 @@ class Library:
 
     def __init__(self):
         self.books = []
-        self.borrowed_books:dict[str,User] = {}
+        self.borrowed_books = {}
 
     def add_book(self, title: str, author: Author):
         book = Book(title, author)
@@ -14,19 +14,20 @@ class Library:
 
     def borrow_book(self, title: str, user: User, author: Author):
         for book in self.books:
-            book_author = book.author
-            if book.title == title and book.author.__str__() == author.__str__():
-                # self.books.remove(book)
-                print(book.is_available())
+            if book.title == title and book.author == author and book.is_available():
+                book.borrow_book(user, author)
+                if not book.is_available:
+                    raise ValueError(f"'{title}' is already borrowed")
                 book.is_available(False)
                 self.borrowed_books[book.title] = user
+                user.borrowed_books.append(book)
                 return "Book has been borrowed"
 
-        raise ValueError(f"Book '{title}' is not in the library")
+        raise ValueError(f"'{title}' is not in the library")
 
-    def check_availability(self, title: str):
+    def check_availability(self):
         for book in self.books:
-            if book.title == title:
-                return True
+            if book.is_available == is_available:
+                return book.is_available
         return False
 
